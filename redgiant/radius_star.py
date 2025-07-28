@@ -38,7 +38,7 @@ color_mdot=colors[3]
 
 for i in range(len(mods)):
 	mod=mods[i]
-	d=ascii.read(mod['file']+'.csv')
+	d=ascii.read(mod['file'])
 	age=d['star_age']/1e9
 	#agemin=mod['tms2']-0.1*(mod['tagb']-mod['tms2'])
 	agemin=mod['tms2']
@@ -47,7 +47,7 @@ for i in range(len(mods)):
 	Teff=10**d['log_Teff']
 	L=10**d['log_L']
 	R=10**d['log_R']
-	mdot=-d['star_mdot']*1e6
+	mdot=-d['star_mdot']
 	mass=d['star_mass']
 	ax[i].plot(age,R,color=color_R)
 	#ax[i].set_ylim(0.5,300)
@@ -65,8 +65,8 @@ for i in range(len(mods)):
 	ax2.set_yscale("log")
 	ax2.tick_params(axis='y', labelcolor=color_mdot)
 	#ax2.set_ylim(mdot.max()*0.0007,mdot.max())
-	mdotmin=1e-4
-	ax2.set_ylim(mdotmin,5)
+	mdotmin=1e-11
+	ax2.set_ylim(mdotmin,1e-6)
 	ax2.fill(np.append(age,age[-1::-1]),np.append(mdot,mdot*0+mdotmin),color=color_mdot,alpha=.75)
 	ax[i].set_ylim(R.min()-.1,R.max()+1)
 	yl=ax[i].get_ylim() ; ycen=(yl[0]*yl[1])**.25

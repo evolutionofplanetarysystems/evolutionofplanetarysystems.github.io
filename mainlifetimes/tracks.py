@@ -6,7 +6,7 @@ import matplotlib.patches as patches
 
 
 mods=Table()
-mods['file']=['track0p5.csv','track1p0.csv','track2p0.csv']
+mods['file']=['0005000M.track.eep','0010000M.track.eep','0020000M.track.eep']
 mods['label']=["0.5","1","2"]
 mods['age_max']=[13e9,11.45e9,1.35e9]
 mods['Tms']=[3900,5900,9200]
@@ -37,6 +37,7 @@ for mod in mods:
 		aax.axvline(mod['trg2'],linestyle='dotted',color='black')
 		aax.set_xlim(.1,age.max())
 		#aax.set_xlim(9,11.5)
+		plt.suptitle(mod['file'].split('.')[0])
 	plt.tight_layout()
 
 fig = plt.figure(figsize=(6, 6)) 
@@ -99,7 +100,10 @@ Tzams=10**d['log_Teff'] ; Lzams=10**d['log_L']
 plt.plot(Tzams,Lzams,color="black")
 plt.text(7600,4.7,'ZAMS',color="black",rotation=-28,ha='center',va='center')
 plt.text(9200,80,"Main\nLifetime",color="black")
-plt.fill(np.append(Tzams,Tzams[-1::-1]),np.append(Lzams,Lzams[-1::-1]*(1+Lzams[-1::-1]**1.2)),alpha=.2,color="grey")
+Lzams_lower=Lzams ; Lzams_upper=Lzams*(1+3*Lzams**.5)
+lll=.5
+Lzams_lower[Lzams<lll]=Lzams_lower[Lzams<lll]*(1-.02*Lzams_lower[Lzams<lll]**(-.5))
+plt.fill(np.append(Tzams,Tzams[-1::-1]),np.append(Lzams_lower,Lzams_upper[-1::-1]),alpha=.2,color="grey")
 # RGB
 plt.show();ax.add_patch(patches.Ellipse((4600,450), 3200, 880, angle=0, facecolor='red', alpha=0.2))
 plt.text(5600,90,"Red\nGiant",color="red")
